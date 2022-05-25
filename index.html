@@ -118,6 +118,12 @@
             }
         }
         function dead(){
+            for(var i=0;i<len-1;i++){
+                if(snake[len-1].x==snake[i].x&&snake[len-1].y==snake[i].y){
+                window.location.reload();
+                alert("游戏失败");
+                }
+            }
             if(snake[len-1].x==900||snake[len-1].y==600||snake[len-1].x<0||snake[len-1].y<0)
             {
                 window.location.reload();
