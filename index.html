@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .map{
+            width: 900px;
+            height: 600px;
+            margin: 50px 300px;
+            background-color: rgb(114, 80, 249);
+            background-color: rgb(130, 248, 117);
+        }
+    </style>
+</head>
+<body>
+    <div class="map">
+    <canvas id="canvas" height="600" width="900"></canvas>
+    </div>
+    <script>
+        var c=document.getElementById('canvas');
+        var ctx=c.getContext('2d');
+        var snake=[];
+        var len=5;
+        var foodx,foody;
+        var togo=0;
+        window.onload = function(){
+            start();
+            food();
+            draw();
+            setInterval(move,100);
+        }
+        document.onkeydown=function(c){
+            keydown(c);
+        }
+        function draw(){
+            for(var i=0;i<60;i++){
+                ctx.strokeStyle='rgb(162, 162, 162)';
+                ctx.beginPath();
+                ctx.moveTo(0,15*i);
+                ctx.lineTo(900,15*i);
+                ctx.closePath();
+                ctx.stroke();
+            }
+            for(var j=0;j<=60;j++){
+                ctx.strokeStyle='rgb(162, 162, 162)';
+                ctx.beginPath();
+                ctx.moveTo(15*j,0);
+                ctx.lineTo(15*j,600);
+                ctx.closePath();
+                ctx.stroke();
+            }
+            position1();
+        }
+        function start(){
+            for(var k=0;k<len;k++){
+                snake[k]={x:15*k,y:0};
+            }
+        }
+        function position1(){
+            for(var i=0;i<len;i++){
+                ctx.fillStyle='rgb(171, 125, 255)';
+                if(i==len-1){
+                    ctx.fillStyle='rgb(114, 80, 249)';
+                }
+                ctx.fillRect(snake[i].x,snake[i].y,15,15);
+            }
+            ctx.fillStyle='rgb(171, 125, 255)';
+            ctx.fillRect(foodx,foody,15,15);
+        }
+        function food(){
+            foodx=Math.floor(Math.random()*60)*15;
+            foody=Math.floor(Math.random()*40)*15;
+            for(var i=0;i<len;i++){
+                if(foodx==snake[i].x&&foody==snake[i].y)
+                food();
+            }
+            ctx.fillStyle='rgb(171, 125, 255)'; 
+            ctx.fillRect(foodx,foody,15,15);
+        }
+        function move(){
+            switch(togo){
+                case 1 :snake.push({x:snake[len-1].x-15,y:snake[len-1].y});break;
+                case 2 :snake.push({x:snake[len-1].x+15,y:snake[len-1].y});break;
+                case 3 :snake.push({x:snake[len-1].x,y:snake[len-1].y-15});break;
+                case 4 :snake.push({x:snake[len-1].x,y:snake[len-1].y+15});break;
+                default :snake.push({x:snake[len-1].x+15,y:snake[len-1].y});
+            }
+            snake.shift();
+            ctx.clearRect(0,0,900,600);
+            draw();
+            Eat();
+            dead();
+        }
+        function keydown(c){
+            switch(c.keyCode){
+                case 37:togo=1;break;
+                case 38:  togo=3;break;
+                case 39:togo=2;break;
+                case 40:togo=4;break;
+                case 65:togo=1;break;
+                case 68:togo=2;break;
+                case 87:togo=3;break;
+                case 83:togo=4;break;
+            }
+        }
+        function Eat(){
+            if(snake[len-1].x==foodx&&snake[len-1].y==foody){
+                food();
+                len++;
+                snake.unshift({x:-15,y:-15});
+            }
+        }
+        function dead(){
+            if(snake[len-1].x==900||snake[len-1].y==600||snake[len-1].x<0||snake[len-1].y<0)
+            {
+                window.location.reload();
+                alert("游戏失败");
+            }
+        }
+    </script>
+</body>
+</html>
