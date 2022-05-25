@@ -13,13 +13,30 @@
         .map{
             width: 900px;
             height: 600px;
-            margin: 50px 300px;
+            margin: 10px 300px;
             background-color: rgb(114, 80, 249);
             background-color: rgb(130, 248, 117);
+        }
+        h1{
+            width: 100px;
+            height: 30px;
+            margin:0px 700px;
+            color: blue;
+        }
+        .box{
+            width: 500px;height: 50px;
+            margin:10px 600px;
+            font-size: larger;
+            color: brown;
         }
     </style>
 </head>
 <body>
+    <h1>贪吃蛇</h1>
+    <div class="box">
+        操作说明:按下W,A,S,D或者上下左右操纵。<br>
+        注意:蛇头不能撞到蛇身。祝您游戏愉快。
+    </div>
     <div class="map">
     <canvas id="canvas" height="600" width="900"></canvas>
     </div>
