@@ -47,6 +47,7 @@
         var len=5;
         var foodx,foody;
         var togo=0;
+        var left1=1,top1=0,botton1=0,right1=1;
         window.onload = function(){
             start();
             food();
@@ -103,11 +104,11 @@
         }
         function move(){
             switch(togo){
-                case 1 :snake.push({x:snake[len-1].x-15,y:snake[len-1].y});break;
-                case 2 :snake.push({x:snake[len-1].x+15,y:snake[len-1].y});break;
-                case 3 :snake.push({x:snake[len-1].x,y:snake[len-1].y-15});break;
-                case 4 :snake.push({x:snake[len-1].x,y:snake[len-1].y+15});break;
-                default :snake.push({x:snake[len-1].x+15,y:snake[len-1].y});
+                case 1 :{snake.push({x:snake[len-1].x-15,y:snake[len-1].y});break;}
+                case 2 :{snake.push({x:snake[len-1].x+15,y:snake[len-1].y});break;}
+                case 3 :{snake.push({x:snake[len-1].x,y:snake[len-1].y-15});break;}
+                case 4 :{snake.push({x:snake[len-1].x,y:snake[len-1].y+15});break;}
+                default :{snake.push({x:snake[len-1].x+15,y:snake[len-1].y});}
             }
             snake.shift();
             ctx.clearRect(0,0,900,600);
@@ -117,14 +118,38 @@
         }
         function keydown(c){
             switch(c.keyCode){
-                case 37:togo=1;break;
-                case 38:  togo=3;break;
-                case 39:togo=2;break;
-                case 40:togo=4;break;
-                case 65:togo=1;break;
-                case 68:togo=2;break;
-                case 87:togo=3;break;
-                case 83:togo=4;break;
+                case 37:{
+                    right1=1;botton1=0;top1=0;
+                    if(left1==0)
+                    togo=1;break;}
+                case 38:{
+                    right1=0;left1=0;botton1=1;
+                    if(top1==0)
+                    togo=3;break;}
+                case 39:{
+                    left1=1;botton1=0;top1=0;
+                    if(right1==0)
+                    togo=2;break;}
+                case 40:{
+                    right1=0;left1=0;top1=1;
+                    if(botton1==0)
+                    togo=4;break;}
+                case 65:{
+                    right1=1;botton1=0;top1=0;
+                    if(left1==0)
+                    togo=1;break;}
+                case 68:{
+                    left1=1;botton1=0;top1=0;
+                    if(right1==0)
+                    togo=2;break;}
+                case 87:{
+                    right1=0;left1=0;botton1=1;
+                    if(top1==0)
+                    togo=3;break;}
+                case 83:{
+                    right1=0;left1=0;top1=1;
+                    if(botton1==0)
+                    togo=4;break;}
             }
         }
         function Eat(){
