@@ -10,12 +10,19 @@
             margin: 0;
             padding: 0;
         }
+        .main{
+            width: 100%;height: 100%;
+            background-size: cover;
+            background-image: url(bg2.jpeg);
+            position: absolute;
+            background-repeat: no-repeat;
+        }
         .map{
             width: 900px;
             height: 600px;
             margin: 10px 300px;
-            background-color: rgb(114, 80, 249);
-            background-color: rgb(130, 248, 117);
+            background-color: rgb(68, 232, 136);
+            background-color: rgb(138, 254, 250);
         }
         h1{
             width: 100px;
@@ -29,17 +36,32 @@
             font-size: larger;
             color: brown;
         }
+        p{
+            margin-top: 30px;
+            margin-left: 350px;
+            margin-right: 10px;
+            float: left;
+            font-size: larger;
+            color: rgb(230, 250, 97);
+        }
+        #score{
+            color: rgb(230, 250, 97);
+            font-size: larger;
+            margin-top: 30px;
+            float: left;}
     </style>
 </head>
 <body>
+    <div class="main">
     <h1>贪吃蛇</h1>
+    <p>当前得分 :</p><div id="score">0</div>
     <div class="box">
         操作说明:按下W,A,S,D或者上下左右操纵。<br>
         注意:蛇头不能撞到蛇身。祝您游戏愉快。
     </div>
     <div class="map">
     <canvas id="canvas" height="600" width="900"></canvas>
-    </div>
+    </div></div>
     <script>
         var c=document.getElementById('canvas');
         var ctx=c.getContext('2d');
@@ -53,13 +75,14 @@
             food();
             draw();
             setInterval(move,50);
+            
         }
         document.onkeydown=function(c){
             keydown(c);
         }
         function draw(){
             for(var i=0;i<60;i++){
-                ctx.strokeStyle='rgb(162, 162, 162)';
+                ctx.strokeStyle='rgb(68, 232, 136)';
                 ctx.beginPath();
                 ctx.moveTo(0,15*i);
                 ctx.lineTo(900,15*i);
@@ -67,7 +90,7 @@
                 ctx.stroke();
             }
             for(var j=0;j<=60;j++){
-                ctx.strokeStyle='rgb(162, 162, 162)';
+                ctx.strokeStyle='rgb(68, 232, 136)';
                 ctx.beginPath();
                 ctx.moveTo(15*j,0);
                 ctx.lineTo(15*j,600);
@@ -156,6 +179,8 @@
             if(snake[len-1].x==foodx&&snake[len-1].y==foody){
                 food();
                 len++;
+                document.getElementById("score").innerHTML="当前得分";
+                document.getElementById("score").innerHTML=(len-5)*10;
                 snake.unshift({x:-15,y:-15});
             }
         }
