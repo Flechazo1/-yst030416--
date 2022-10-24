@@ -13,69 +13,160 @@
         .main{
             width: 100%;height: 100%;
             background-size: cover;
-            background-image: url(bg2.jpeg);
             position: absolute;
             background-repeat: no-repeat;
+        }
+        .body{
+            width: 900px;
+            height: 100px;
+            margin: 0 auto;
+            margin-top: 5px;
+            overflow: hidden;
         }
         .map{
             width: 900px;
             height: 600px;
-            margin: 10px 300px;
-            background-color: rgb(68, 232, 136);
+            margin: 0px auto;
+            margin-top: 10px;
             background-color: rgb(138, 254, 250);
         }
-        h1{
-            width: 100px;
-            height: 30px;
-            margin:0px 700px;
-            color: blue;
-        }
         .box{
-            width: 500px;height: 50px;
-            margin:10px 600px;
+            width: 370px;height: 50px;
+            margin:6px 0px;
+            margin-left: 120px;
             font-size: larger;
             color: brown;
         }
         p{
-            margin-top: 30px;
-            margin-left: 350px;
-            margin-right: 10px;
-            float: left;
             font-size: larger;
+            margin-left: 14px;
             color: rgb(230, 250, 97);
         }
+        .right{
+            width: 300px;
+            height: 70px;
+            display: flex;
+        }
         #score{
+            width: 40px;
+            height: 50px;
+            margin-left: 5px;
             color: rgb(230, 250, 97);
             font-size: larger;
-            margin-top: 30px;
-            float: left;}
+        }
+        .left{
+            width: 150px;
+            height: 50px;
+            margin-top: 10px;
+            line-height: 50px;
+            display: flex;
+        }
+        .top{
+            width: 100%;
+            height: 30px;
+            color: blue;
+            margin-top: 10px;
+            text-align: center;
+            font-size: x-large;
+            font-weight: bold;
+        }
+        .box1{
+            width: 100%;
+            height: 70px;
+            overflow: hidden;
+            display: flex;
+        }
+        .box2{
+            width: 30%;
+            height: 50px;
+            background-color: greenyellow;
+            line-height: 50px;
+            border-radius: 10px;
+            text-align: center;
+            margin-left: 8px;
+            margin-top: 5px;
+            text-decoration: none;
+            color: black;
+        }
+        .btn2{
+            background-color: rgb(181, 103, 255);
+        }
+        .btn3{
+            background-color: rgb(255, 116, 116);
+        }
+        .btn1:hover{
+            background-color: rgb(149, 232, 26);
+            cursor: pointer;
+        }
+        .btn2:hover{
+            background-color: rgb(162, 73, 246);
+            cursor: pointer;
+        }
+        .btn3:hover{
+            background-color: rgb(242, 86, 86);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="main">
-    <h1>贪吃蛇</h1>
-    <p>当前得分 :</p><div id="score">0</div>
-    <div class="box">
+    <div class="body">
+        <div class="top">贪吃蛇</div>
+        <div class="box1">
+        <div class="left">
+            <p>当前得分 :</p><div id="score">0</div>
+        </div>
+        <div class="box">
         操作说明:按下W,A,S,D或者上下左右操纵。<br>
         注意:蛇头不能撞到蛇身。祝您游戏愉快。
+        </div>
+        <div class="right">
+            <div class="box2 btn1">简单</div>
+            <div class="box2 btn2">普通</div>
+            <div class="box2 btn3">困难</div>
+        </div>
+        </div>
     </div>
     <div class="map">
     <canvas id="canvas" height="600" width="900"></canvas>
-    </div></div>
+    </div>
+    </div>
     <script>
         var c=document.getElementById('canvas');
         var ctx=c.getContext('2d');
         var snake=[];
-        var len=5;
+        var len=4;
         var foodx,foody;
         var togo=0;
-        var left1=1,top1=0,botton1=0,right1=1;
-        window.onload = function(){
+        let left1=1,top1=1,botton1=1,right1=1;
+        let btn1=document.querySelector('.btn1');
+        let btn2=document.querySelector('.btn2');
+        let btn3=document.querySelector('.btn3');
+        btn3.onclick=()=>{
+            window.localStorage.clear();
+            window.localStorage.setItem("flag3",3);
+            window.location.reload();
+        }
+        btn2.onclick=()=>{
+            window.localStorage.clear();
+            window.localStorage.setItem("flag2",2);
+            window.location.reload();
+        }
+        btn1.onclick=()=>{
+            window.localStorage.clear();
+            window.localStorage.setItem("flag1",1);
+            window.location.reload();
+        }
+        window.onload = ()=>{
             start();
             food();
             draw();
-            setInterval(move,80);
-            
+            let flag3=window.localStorage.getItem("flag3");
+            let flag2=window.localStorage.getItem("flag2");
+            let flag1=window.localStorage.getItem("flag1");
+            if(flag3==3) setInterval(move,40);
+            if(flag2==2) setInterval(move,80);
+            if(flag1==1) setInterval(move,120)
         }
         document.onkeydown=function(c){
             keydown(c);
@@ -127,10 +218,10 @@
         }
         function move(){
             switch(togo){
-                case 1 :{snake.push({x:snake[len-1].x-15,y:snake[len-1].y});break;}
-                case 2 :{snake.push({x:snake[len-1].x+15,y:snake[len-1].y});break;}
-                case 3 :{snake.push({x:snake[len-1].x,y:snake[len-1].y-15});break;}
-                case 4 :{snake.push({x:snake[len-1].x,y:snake[len-1].y+15});break;}
+                case 1 :{snake.push({x:snake[len-1].x-15,y:snake[len-1].y});left1=1;right1=0;top1=1;botton1=1;break;}
+                case 2 :{snake.push({x:snake[len-1].x+15,y:snake[len-1].y});right1=1;left1=0;top1=1;botton1=1;break;}
+                case 3 :{snake.push({x:snake[len-1].x,y:snake[len-1].y-15});top1=1;botton1=0;left1=1;right1=1;break;}
+                case 4 :{snake.push({x:snake[len-1].x,y:snake[len-1].y+15});botton1=1;top1=0;left1=1;right1=1;break;}
                 default :{snake.push({x:snake[len-1].x+15,y:snake[len-1].y});}
             }
             snake.shift();
@@ -142,36 +233,28 @@
         function keydown(c){
             switch(c.keyCode){
                 case 37:{
-                    right1=1;botton1=0;top1=0;
-                    if(left1==0)
+                    if(left1==1)
                     togo=1;break;}
                 case 38:{
-                    right1=0;left1=0;botton1=1;
-                    if(top1==0)
+                    if(top1==1)
                     togo=3;break;}
                 case 39:{
-                    left1=1;botton1=0;top1=0;
-                    if(right1==0)
+                    if(right1==1)
                     togo=2;break;}
                 case 40:{
-                    right1=0;left1=0;top1=1;
-                    if(botton1==0)
+                    if(botton1==1)
                     togo=4;break;}
                 case 65:{
-                    right1=1;botton1=0;top1=0;
-                    if(left1==0)
+                    if(left1==1)
                     togo=1;break;}
                 case 68:{
-                    left1=1;botton1=0;top1=0;
-                    if(right1==0)
+                    if(right1==1)
                     togo=2;break;}
                 case 87:{
-                    right1=0;left1=0;botton1=1;
-                    if(top1==0)
+                    if(top1==1)
                     togo=3;break;}
                 case 83:{
-                    right1=0;left1=0;top1=1;
-                    if(botton1==0)
+                    if(botton1==1)
                     togo=4;break;}
             }
         }
@@ -187,14 +270,14 @@
         function dead(){
             for(var i=0;i<len-1;i++){
                 if(snake[len-1].x==snake[i].x&&snake[len-1].y==snake[i].y){
-                window.location.reload();
-                alert("游戏失败");
+                    alert("游戏失败");
+                    window.location.reload();
                 }
             }
-            if(snake[len-1].x==900||snake[len-1].y==600||snake[len-1].x<0||snake[len-1].y<0)
+            if(snake[len-1].x==900||snake[len-1].y==600||snake[len-1].x==-15||snake[len-1].y==-15)
             {
-                window.location.reload();
                 alert("游戏失败");
+                window.location.reload();
             }
         }
     </script>
