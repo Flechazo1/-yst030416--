@@ -165,9 +165,12 @@
             let flag3=window.localStorage.getItem("flag3");
             let flag2=window.localStorage.getItem("flag2");
             let flag1=window.localStorage.getItem("flag1");
+            if(flag1!=null||flag2!=null||flag3!=null){
             if(flag3==3) setInterval(move,40);
             if(flag2==2) setInterval(move,80);
             if(flag1==1) setInterval(move,120)
+            }
+            else setInterval(move,80);
         }
         document.onkeydown=function(c){
             keydown(c);
